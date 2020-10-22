@@ -26,7 +26,7 @@ namespace KEseentialsAutomessage
 
         public override void Run()
         {
-            if (_minPlayersCountToPost < _api.World.AllOnlinePlayers.Length) return;
+            if (_api.World.AllOnlinePlayers.Length < _minPlayersCountToPost) return;
             var message = _messages.GetRandomItem();
             _api.BroadcastMessageToAllGroups($"{_prefix}{message}", EnumChatType.AllGroups);
         }

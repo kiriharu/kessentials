@@ -13,16 +13,8 @@ namespace KEssentialsKits
     
     public class KitsConfig
     {
-        public List<Kit> kits = new List<Kit>(new []
-        {
-            new Kit("start", new List<Item>(new []
-            {
-               new Item(ItemType.item, "game:gear-temporal", 1),
-               new Item(ItemType.item,"game:vegetable-carrot", 10), 
-               new Item(ItemType.item,"game:pickaxe-iron", 1),
-               new Item(ItemType.block,"game:soil-medium-none", 20), 
-            }), 30, true)
-        });
+
+        public List<Kit> kits = new List<Kit>();
     }
 
     public class Kit

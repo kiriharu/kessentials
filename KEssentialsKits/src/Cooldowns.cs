@@ -5,14 +5,7 @@ namespace KEssentialsKits
 {
     public class Cooldowns
     {
-        /*public List<User> usageCooldowns = new List<User>(new[]
-        {
-            new User("1234567891", new List<Timer>(new []
-            {
-             new Timer("start", 12345),    
-            })),
-        });*/
-        public List<User> usageCooldowns;
+        public List<User> usageCooldowns = new List<User>();
     }
 
     public class User

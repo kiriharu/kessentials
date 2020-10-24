@@ -43,13 +43,13 @@ namespace Kvsl.Utils
             var permissions = privilegeClass
                 .GetFields(BindingFlags.Public | BindingFlags.Static)
                 .Where(f => f.FieldType == typeof(string))
+                .Select(f => f.GetValue(null))
+                .Where(f => f != null)
                 .ToList();
             foreach (var permField in permissions)
             {
-                var perm = permField.GetValue(null);
-                if (perm == null) continue;
-                serverApi.Logger.Event($"Register {perm} permission");
-                serverApi.Permissions.RegisterPrivilege(perm.ToString(), "", true);
+                serverApi.Logger.Event($"Register {permField} permission");
+                serverApi.Permissions.RegisterPrivilege(permField.ToString(), "", true);
             }
         }
     }

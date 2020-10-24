@@ -17,15 +17,16 @@ namespace KEseentialsAutomessage
         {
             _api = api;
             var conf = _api.LoadOrCreateConf<Config>("automessage.json");
-            if(conf.Messages.Count == 0) _messages.Add("Configure your automessage.json!");
-            else _messages = conf.Messages;
-            _prefix = conf.Prefix;
-            Timer = conf.Timer;
-            _minPlayersCountToPost = conf.MinPlayersCountToPost;
+            if(conf.messages.Count == 0) _messages.Add("Configure your automessage.json!");
+            else _messages = conf.messages;
+            _prefix = conf.prefix;
+            Timer = conf.timer;
+            _minPlayersCountToPost = conf.minPlayersCountToPost;
         }
 
         public override void Run()
         {
+            // TODO: Modify messages by placeholders like {PlayersOnlineCount}
             if (_api.World.AllOnlinePlayers.Length < _minPlayersCountToPost) return;
             var message = _messages.GetRandomItem();
             _api.BroadcastMessageToAllGroups($"{_prefix}{message}", EnumChatType.AllGroups);

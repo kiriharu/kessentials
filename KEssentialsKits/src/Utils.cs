@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Kvsl.Utils;
 using Vintagestory.API.Server;
 
@@ -36,5 +37,17 @@ namespace KEssentialsKits
             else player.SendErr( $"{kitName} not found");
         }
         
+        public static void GiveFirstJoinKits(IServerPlayer player)
+        {
+            
+            var firstJoinKits = KEssentialsKits
+                .LoadedKitsConfig
+                .kits
+                .Where(kit => kit.giveOnFirstJoin)
+                .Select(kit => kit.name)
+                .ToList();
+            
+            firstJoinKits.ForEach(kitName => GiveKit(player, kitName));
+        }
     }
 }

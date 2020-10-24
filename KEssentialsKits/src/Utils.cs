@@ -1,4 +1,5 @@
-﻿using Kvsl.Utils;
+﻿using System;
+using Kvsl.Utils;
 using Vintagestory.API.Server;
 
 namespace KEssentialsKits
@@ -12,18 +13,21 @@ namespace KEssentialsKits
             );
             if (kit != null)
             {
-                var cooldown = KEssentialsKits.KitCooldownManagerInstance.GetCooldown(player.PlayerUID, kitName);
-                if (cooldown > 0)
+                if (!player.HasPrivilege(Privilege.ignoreCooldowns))
                 {
-                    player.SendErr($"You must wait {cooldown} sec. to use this kit");
-                    return;
+                    var cooldown = KEssentialsKits.KitCooldownManagerInstance.GetCooldown(player.PlayerUID, kitName);
+                    if (cooldown > 0)
+                    {
+                        player.SendErr($"You must wait {cooldown} sec. to use this kit");
+                        return;
+                    }   
                 }
                 if (!player.HasPrivilege($"{Privilege.kit}.{kit.name}"))
                 {
                     player.SendErr($"You don't have access to kit {kit.name}");
                     return;
                 }
-                player.SendOk($"Giving {kit.name}");
+                player.SendOk($"Giving kit {kit.name}");
                 kit.items.ForEach(
                     item => player.GiveItemStack(item.type, item.code, item.amount)
                 );

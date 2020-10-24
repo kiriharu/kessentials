@@ -21,15 +21,20 @@ namespace KEssentialsKits
         {
             base.StartServerSide(api);
             LoadedKitsConfig = api.LoadOrCreateConf<KitsConfig>(KitsConfigName);
-            KitCooldownManagerInstance = new KitCooldownManager(api.LoadOrCreateConf<Cooldowns>(CooldownsConfigName));
+            KitCooldownManagerInstance = new KitCooldownManager(
+                api.LoadOrCreateConf<Cooldowns>(CooldownsConfigName)
+            );
             api.RegisterCommand(new Commands.Kit(api));
             api.RegisterPrivilegeClass(typeof(Privilege));
             foreach (var kit in LoadedKitsConfig.kits)
             {
-                api.Permissions.RegisterPrivilege($"{Privilege.kit}.{kit.name}", "Kit", true);
+                api.Logger.Event($"Register {Privilege.kit}.{kit.name} kit-based permission");
+                api
+                    .Permissions
+                    .RegisterPrivilege($"{Privilege.kit}.{kit.name}", "Kit", true);
             }
         }
-        
+
     }
         
 }

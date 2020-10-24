@@ -1,4 +1,5 @@
-﻿using Vintagestory.API.Common;
+﻿using System;
+using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 
@@ -21,6 +22,14 @@ namespace Kvsl.Utils
         {
             serverPlayer.SendMessage(GlobalConstants.GeneralChatGroup, message, EnumChatType.OwnMessage, data);
         }
-        
+
+        public static bool GiveItemStack(this IServerPlayer serverPlayer, string itemType, string itemCode, int amount)
+        {
+            var worldAccessor = serverPlayer.Entity.World;
+            var itemStack = worldAccessor.GetItemStack(itemType, itemCode, amount);
+            if (!itemStack.IsEmpty()) return serverPlayer.InventoryManager.TryGiveItemstack(itemStack);
+            serverPlayer.Entity.World.Api.Logger.Warning("Trying to give null itemstack");
+            return false;
+        }
     }
 }

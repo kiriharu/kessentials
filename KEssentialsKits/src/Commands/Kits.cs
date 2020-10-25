@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
+using KEssentialsKits.Api;
 using Kvsl.Utils;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
@@ -11,10 +10,12 @@ namespace KEssentialsKits.Commands
     {
 
         private ICoreServerAPI _api;
+        private IKits _kits;
         
-        public Kits(ICoreServerAPI api)
+        public Kits(ICoreServerAPI api, IKits kitsInstance)
         {
             _api = api;
+            _kits = kitsInstance;
             Command = "kits";
             Description = "List kits.";
             Syntax = "/kits";
@@ -24,9 +25,9 @@ namespace KEssentialsKits.Commands
         public override void CallHandler(IPlayer player, int groupId, CmdArgs args)
         {
             var serverPlayer = (IServerPlayer) player;
-            var accessedKits = Utils.GetAccessedKits(serverPlayer);
-            var playerCooldowns = KEssentialsKits
-                .KitCooldownManagerInstance
+            var accessedKits = _kits.GetAccessedKits(serverPlayer);
+            var playerCooldowns = _kits
+                .GetCooldownManager()
                 .GetCooldowns(player.PlayerUID);
             var finalString = new StringBuilder();
             finalString.Append("You have access to this kits:");

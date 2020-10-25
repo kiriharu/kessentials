@@ -1,4 +1,4 @@
-﻿using System;
+﻿using KEssentialsKits.Api;
 using Kvsl.Utils;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
@@ -8,10 +8,12 @@ namespace KEssentialsKits.Commands
     public class Kit : ServerChatCommand
     {
         private readonly ICoreServerAPI _api;
+        private IKits _kits;
 
-        public Kit(ICoreServerAPI api)
+        public Kit(ICoreServerAPI api, IKits kitsInstance)
         {
             _api = api;
+            _kits = kitsInstance;
             Command = "kit";
             Description = "Gives you a kit.";
             Syntax = "/kit <kitname>";
@@ -20,7 +22,6 @@ namespace KEssentialsKits.Commands
         
         public override void CallHandler(IPlayer player, int groupId, CmdArgs args)
         {
-            // TODO: Mb create CallHandler with IServerPlayer?
             var serverPlayer = (IServerPlayer) player;
             if (args.Length == 0 || args.Length > 1)
             {
@@ -28,7 +29,7 @@ namespace KEssentialsKits.Commands
                 return;
             }
             var kitName = args[0];
-            serverPlayer.GiveKit(kitName);
+            _kits.GiveKit(serverPlayer, kitName);
         }
     }
 }

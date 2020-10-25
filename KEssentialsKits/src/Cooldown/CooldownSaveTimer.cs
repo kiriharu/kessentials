@@ -16,7 +16,7 @@ namespace KEssentialsKits.Cooldown
 
         public override void Run()
         {
-            KEssentialsKits.KitCooldownManagerInstance.SaveToConfig(_coreServerApi);
+            KEssentialsKits.KitCooldownManagerInstance.Save(_coreServerApi);
         }
     }
 }

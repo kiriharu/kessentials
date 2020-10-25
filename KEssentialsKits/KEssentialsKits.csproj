@@ -42,15 +42,16 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="src\Api\IKits.cs" />
+        <Compile Include="src\Api\DefaultKits.cs" />
         <Compile Include="src\Commands\Kit.cs" />
         <Compile Include="src\Commands\Kits.cs" />
         <Compile Include="src\Config.cs" />
         <Compile Include="src\Cooldown\Cooldowns.cs" />
         <Compile Include="src\Cooldown\CooldownSaveTimer.cs" />
-        <Compile Include="src\Cooldown\KitCooldownManager.cs" />
+        <Compile Include="src\Cooldown\KitDictCooldownManager.cs" />
         <Compile Include="src\KEssentialsKits.cs" />
         <Compile Include="src\Privilege.cs" />
-        <Compile Include="src\Utils.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\KVSL\KVSL.csproj">

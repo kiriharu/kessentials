@@ -1,28 +1,28 @@
 ﻿using System.Collections.Generic;
-using Kvsl;
+using Kvsl.CooldownManager;
 using Vintagestory.API.Server;
 
 namespace KEssentialsKits.Cooldown
 {
-    public class KitCooldownManager : CooldownManager
+    public class KitDictCooldownManager : DictCooldownManager, ISaveableCooldownManager
     {
 
-        public KitCooldownManager(Cooldowns cooldownsObj) : base()
+        public KitDictCooldownManager(Cooldowns cooldownsObj) : base()
         {
             foreach (var cooldownsObjUsageCooldown in cooldownsObj.usageCooldowns)
             {
-                Timers.Add(cooldownsObjUsageCooldown.playerUID, new List<Kvsl.Cooldowns>());
+                Timers.Add(cooldownsObjUsageCooldown.playerUID, new List<Kvsl.CooldownManager.Cooldowns>());
                 foreach (var kitTimer in cooldownsObjUsageCooldown.timers)
                 {
                     Timers[cooldownsObjUsageCooldown.playerUID].Add(
-                        new Kvsl.Cooldowns(kitTimer.kit, kitTimer.endTimestamp)
+                        new Kvsl.CooldownManager.Cooldowns(kitTimer.kit, kitTimer.endTimestamp)
                     );
                 }
             }
             
         }
 
-        public void SaveToConfig(ICoreServerAPI serverApi)
+        public void Save(ICoreServerAPI serverApi)
         {
             serverApi.Logger.Event("Starting to save kits cooldowns to file.");
             var cooldownsFile = new Cooldowns();

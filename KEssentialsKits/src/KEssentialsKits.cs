@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using KEssentialsKits.Cooldown;
+﻿using KEssentialsKits.Cooldown;
+using Kvsl.CooldownManager;
 using Kvsl.Utils;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
+using Cooldowns = KEssentialsKits.Cooldown.Cooldowns;
 
 namespace KEssentialsKits
 {
@@ -13,7 +13,7 @@ namespace KEssentialsKits
         public static string KitsConfigName = "kits.json";
         public static string CooldownsConfigName = "kits_cooldowns.json";
         public static KitsConfig LoadedKitsConfig;
-        public static KitCooldownManager KitCooldownManagerInstance;
+        public static ISaveableCooldownManager KitCooldownManagerInstance;
         
         // Used only in Dispose() ¯\_(ツ)_/¯. 
         private ICoreServerAPI _coreServerApi;
@@ -30,30 +30,26 @@ namespace KEssentialsKits
 
             // Kit Config register
             LoadedKitsConfig = api.LoadOrCreateConf<KitsConfig>(KitsConfigName);
-            if (LoadedKitsConfig.kits.Count == 0)
-            {
-                api.Logger.Warning($"Oh, i don't see any kit in {KitsConfigName} file. Generating a new one...");
-                var defaultKit = new Kit("start", new List<Item>(new[]
-                {
-                    new Item(ItemType.item, "game:gear-temporal", 1),
-                    new Item(ItemType.item, "game:bread-rice", 4),
-                    new Item(ItemType.item, "game:flint", 5),
-                    new Item(ItemType.item, "game:stick", 4),
-                    new Item(ItemType.block, "game:torch-up", 2)
-                    
-                }), 84600, true);
-                LoadedKitsConfig.kits.Add(defaultKit);
-                api.StoreModConfig(LoadedKitsConfig, KitsConfigName);
-            }
-
-            // Cooldown manager
-            KitCooldownManagerInstance = new KitCooldownManager(
+            
+            // Kit Cooldown manager 
+            KitCooldownManagerInstance = new KitDictCooldownManager(
                 api.LoadOrCreateConf<Cooldowns>(CooldownsConfigName)
             );
+            
+            var kitsInstance = new Api.DefaultKits();
+            
+            if (LoadedKitsConfig.kits.Count == 0)
+            {
+                var defaultKit = kitsInstance.GetDefaultKit();
+                LoadedKitsConfig.kits.Add(defaultKit);
+                api.StoreModConfig(kitsInstance.GetLoadedKits(), KitsConfigName);
+            }
 
             // Register commands
-            api.RegisterCommand(new Commands.Kit(api));
-            api.RegisterCommand(new Commands.Kits(api));
+            api.RegisterCommand(new Commands.Kit(api, kitsInstance));
+            api.RegisterCommand(new Commands.Kits(api, kitsInstance));
+            
+            // Register priveleges
             api.RegisterPrivilegeClass(typeof(Privilege));
             foreach (var kit in LoadedKitsConfig.kits)
             {
@@ -64,7 +60,7 @@ namespace KEssentialsKits
             }
 
             // Give kits on first join
-            api.Event.PlayerCreate += Utils.GiveFirstJoinKits;
+            api.Event.PlayerCreate += kitsInstance.GiveFirstJoinKits;
             
             // Save timer
             api.RegisterKvslTimer(typeof(CooldownSaveTimer));
@@ -77,7 +73,7 @@ namespace KEssentialsKits
         {
             base.Dispose();
             // Save cooldowns
-            KitCooldownManagerInstance.SaveToConfig(_coreServerApi);
+            KitCooldownManagerInstance.Save(_coreServerApi);
             // Kits loading
             LoadedKitsConfig = _coreServerApi.LoadOrCreateConf<KitsConfig>(KitsConfigName);
         }

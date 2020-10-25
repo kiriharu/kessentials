@@ -3,14 +3,27 @@ using System.Collections.Generic;
 
 namespace Kvsl
 {
+
+    public class Cooldowns
+    {
+        public string Key;
+        public int EndTimeStamp;
+        
+        public Cooldowns(string key, int endTimeStamp)
+        {
+            Key = key;
+            EndTimeStamp = endTimeStamp;
+        }
+    }
+
     public class CooldownManager
     {
         
-        public Dictionary<string, Dictionary<string, int>> Timers;
+        public Dictionary<string, List<Cooldowns>> Timers;
 
         public CooldownManager()
         {
-            Timers = new Dictionary<string, Dictionary<string, int>>();
+            Timers = new Dictionary<string, List<Cooldowns>>();
         }
 
         public static int GetUnixTimestamp()
@@ -20,20 +33,21 @@ namespace Kvsl
         
         public void SetCooldown(string playerUid, string key, int cooldown)
         {
-            Timers[playerUid] = new Dictionary<string, int>
+            if (!Timers.ContainsKey(playerUid))
             {
-                {key, cooldown + GetUnixTimestamp()}
-            };
+                Timers[playerUid] = new List<Cooldowns>();   
+            }
+            Timers[playerUid].Add(new Cooldowns(key, cooldown + GetUnixTimestamp()));
         }
 
         public int GetCooldown(string playerUid, string key)
         {
             if (!Timers.ContainsKey(playerUid)) return 0;
-            if (!Timers[playerUid].ContainsKey(key)) return 0;
-            var unixTimeToFinish = Timers[playerUid][key];
-            var difference = unixTimeToFinish - GetUnixTimestamp();
+            var keyCooldown = Timers[playerUid].Find(cooldown => cooldown.Key == key);
+            if (keyCooldown == null) return 0;
+            var difference = keyCooldown.EndTimeStamp - GetUnixTimestamp();
             if (difference > 0) return difference;
-            Timers[playerUid].Remove(key);
+            Timers[playerUid].Remove(keyCooldown);
             return 0;
         }
 

@@ -36,10 +36,12 @@ namespace KEssentialsKits
                 var defaultKit = new Kit("start", new List<Item>(new[]
                 {
                     new Item(ItemType.item, "game:gear-temporal", 1),
-                    new Item(ItemType.item, "game:vegetable-carrot", 10),
-                    new Item(ItemType.item, "game:pickaxe-iron", 1),
-                    new Item(ItemType.block, "game:soil-medium-none", 20),
-                }), 30, true);
+                    new Item(ItemType.item, "game:bread-rice", 4),
+                    new Item(ItemType.item, "game:flint", 5),
+                    new Item(ItemType.item, "game:stick", 4),
+                    new Item(ItemType.block, "game:torch-up", 2)
+                    
+                }), 84600, true);
                 LoadedKitsConfig.kits.Add(defaultKit);
                 api.StoreModConfig(LoadedKitsConfig, KitsConfigName);
             }

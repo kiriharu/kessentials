@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 // ReSharper disable InconsistentNaming
 
-namespace KEssentialsKits
+namespace KEssentialsKits.Cooldown
 {
     public class Cooldowns
     {

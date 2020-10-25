@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using KEssentialsKits.Cooldown;
 using Kvsl.Utils;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
@@ -13,15 +15,19 @@ namespace KEssentialsKits
         public static KitsConfig LoadedKitsConfig;
         public static KitCooldownManager KitCooldownManagerInstance;
         
+        // Used only in Dispose() ¯\_(ツ)_/¯. 
+        private ICoreServerAPI _coreServerApi;
+
         public override bool ShouldLoad(EnumAppSide side)
         {
             return side == EnumAppSide.Server;
         }
-        
+
         public override void StartServerSide(ICoreServerAPI api)
         {
             base.StartServerSide(api);
-            
+            _coreServerApi = api;
+
             // Kit Config register
             LoadedKitsConfig = api.LoadOrCreateConf<KitsConfig>(KitsConfigName);
             if (LoadedKitsConfig.kits.Count == 0)
@@ -37,11 +43,12 @@ namespace KEssentialsKits
                 LoadedKitsConfig.kits.Add(defaultKit);
                 api.StoreModConfig(LoadedKitsConfig, KitsConfigName);
             }
-            
+
+            // Cooldown manager
             KitCooldownManagerInstance = new KitCooldownManager(
                 api.LoadOrCreateConf<Cooldowns>(CooldownsConfigName)
             );
-            
+
             // Register commands
             api.RegisterCommand(new Commands.Kit(api));
             api.RegisterPrivilegeClass(typeof(Privilege));
@@ -50,11 +57,26 @@ namespace KEssentialsKits
                 api.Logger.Event($"Register {Privilege.kit}.{kit.name} kit-based permission");
                 api
                     .Permissions
-                    .RegisterPrivilege($"{Privilege.kit}.{kit.name}", "Kit", true);
+                    .RegisterPrivilege($"{Privilege.kit}.{kit.name}", $"Kit {kit.name}", true);
             }
-            api.Event.PlayerCreate += Utils.GiveFirstJoinKits;
-        }
 
-    }
+            // Give kits on first join
+            api.Event.PlayerCreate += Utils.GiveFirstJoinKits;
+            
+            // Save timer
+            api.RegisterKvslTimer(typeof(CooldownSaveTimer));
+        }
         
+        /// <summary>
+        /// Save cooldowns to file and update kits on reload and shutdown
+        /// </summary>
+        public override void Dispose()
+        {
+            base.Dispose();
+            // Save cooldowns
+            KitCooldownManagerInstance.SaveToConfig(_coreServerApi);
+            // Kits loading
+            LoadedKitsConfig = _coreServerApi.LoadOrCreateConf<KitsConfig>(KitsConfigName);
+        }
+    }
 }

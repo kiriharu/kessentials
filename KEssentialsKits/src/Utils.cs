@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Kvsl.Utils;
 using Vintagestory.API.Server;
 
@@ -47,6 +48,16 @@ namespace KEssentialsKits
                 .ToList();
             
             firstJoinKits.ForEach(kitName => GiveKit(player, kitName));
+        }
+        
+        public static List<string> GetAccessedKits(IServerPlayer player)
+        {
+            return KEssentialsKits
+                .LoadedKitsConfig
+                .kits
+                .Where(kit => player.HasPrivilege($"{Privilege.kit}.{kit.name}"))
+                .Select(kit => kit.name)
+                .ToList();
         }
     }
 }

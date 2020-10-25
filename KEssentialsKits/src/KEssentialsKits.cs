@@ -53,6 +53,7 @@ namespace KEssentialsKits
 
             // Register commands
             api.RegisterCommand(new Commands.Kit(api));
+            api.RegisterCommand(new Commands.Kits(api));
             api.RegisterPrivilegeClass(typeof(Privilege));
             foreach (var kit in LoadedKitsConfig.kits)
             {

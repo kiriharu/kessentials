@@ -51,6 +51,16 @@ namespace Kvsl
             return 0;
         }
 
+        public Dictionary<string, int> GetCooldowns(string playerUid)
+        {
+            var dict = new Dictionary<string, int>();
+            if (!Timers.ContainsKey(playerUid)) return dict;
+            Timers[playerUid].ForEach(
+                cooldown => dict.Add(cooldown.Key, cooldown.EndTimeStamp - GetUnixTimestamp())
+            );
+            return dict;
+        }
+
         public bool IsInCooldown(string playerUid, string key)
         {
             return GetCooldown(playerUid, key) > 0;

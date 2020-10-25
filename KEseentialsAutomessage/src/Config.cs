@@ -9,15 +9,8 @@ namespace KEseentialsAutomessage
     {
         public int timer = 30;
         public string prefix = "[Info]: ";
-        public List<string> messages = new List<string>(new string[]
-        // TODO: vtml builder?
-        {
-            "First message! Set messages in automessage.json!", 
-            "Second message! Plugin repository <a href='http://github.com/kiriharu/kessentials'>is here</a>", 
-            "Third message! I can use <font size='5' " +
-            "color='green'" +
-            " weight='bold'" + ">VTML</font>"
-        });
+        public List<string> messages = new List<string>();
+        // TODO: vtml builder
         public int minPlayersCountToPost = 1;
     }
 }

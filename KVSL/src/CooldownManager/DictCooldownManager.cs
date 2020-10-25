@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Kvsl
+namespace Kvsl.CooldownManager
 {
 
     public class Cooldowns
@@ -16,12 +16,12 @@ namespace Kvsl
         }
     }
 
-    public class CooldownManager
+    public class DictCooldownManager : ICooldownManager
     {
         
         public Dictionary<string, List<Cooldowns>> Timers;
 
-        public CooldownManager()
+        public DictCooldownManager()
         {
             Timers = new Dictionary<string, List<Cooldowns>>();
         }

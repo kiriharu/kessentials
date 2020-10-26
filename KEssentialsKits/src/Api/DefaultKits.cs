@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Kvsl.CooldownManager;
-using Kvsl.Utils;
+using Kvsl.Extensions;
 using Vintagestory.API.Server;
 
 namespace KEssentialsKits.Api
@@ -12,7 +12,7 @@ namespace KEssentialsKits.Api
         {
             return KEssentialsKits.KitCooldownManagerInstance;
         }
-
+        
         public KitsConfig GetLoadedKits()
         {
             return KEssentialsKits.LoadedKitsConfig;
@@ -54,6 +54,7 @@ namespace KEssentialsKits.Api
                         return;
                     }
                     player.SendOk($"Giving kit {kit.name}");
+                    // TODO: if inventory full, should use player.Entity.World.SpawnItemEntity();
                     kit.items.ForEach(
                         item => player.GiveItemStack(item.type, item.code, item.amount)
                     );

@@ -1,6 +1,6 @@
 ﻿using Vintagestory.API.Common;
 
-namespace Kvsl.Utils
+namespace Kvsl.Extensions
 {
     public static class ItemStackExtensions
     {

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Kvsl.Utils;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 
-namespace Kvsl.Utils
+namespace Kvsl.Extensions
 {
     public static class APIExtensions
     {

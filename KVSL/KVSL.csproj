@@ -45,11 +45,12 @@
         <Compile Include="src\CooldownManager\DictCooldownManager.cs" />
         <Compile Include="src\CooldownManager\ICooldownManager.cs" />
         <Compile Include="src\CooldownManager\ISaveableCooldownManager.cs" />
+        <Compile Include="src\Extensions\APIExtensions.cs" />
+        <Compile Include="src\Extensions\DictExtensions.cs" />
+        <Compile Include="src\Extensions\ItemStackExtensions.cs" />
+        <Compile Include="src\Extensions\ServerPlayerExtensions.cs" />
         <Compile Include="src\KEssentials.cs" />
         <Compile Include="src\Utils\AbstractTimerEvent.cs" />
-        <Compile Include="src\Utils\APIExtensions.cs" />
-        <Compile Include="src\Utils\ItemStackExtensions.cs" />
-        <Compile Include="src\Utils\ServerPlayerExtensions.cs" />
         <Compile Include="src\Utils\TypeUtils.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,9 +1,8 @@
-﻿using System;
-using Vintagestory.API.Common;
+﻿using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 
-namespace Kvsl.Utils
+namespace Kvsl.Extensions
 {
     public static class ServerPlayerExtensions
     {

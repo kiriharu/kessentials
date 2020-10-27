@@ -32,7 +32,7 @@ namespace KEssentialsKits
             LoadedKitsConfig = api.LoadOrCreateConf<KitsConfig>(KitsConfigName);
             
             // Kit Cooldown manager 
-            KitCooldownManagerInstance = new KitDictCooldownManager(
+            KitCooldownManagerInstance = new KitListOfCooldownsCooldownManager(
                 api.LoadOrCreateConf<Cooldowns>(CooldownsConfigName)
             );
             

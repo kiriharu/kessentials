@@ -4,10 +4,10 @@ using Vintagestory.API.Server;
 
 namespace KEssentialsKits.Cooldown
 {
-    public class KitDictCooldownManager : DictCooldownManager, ISaveableCooldownManager
+    public class KitListOfCooldownsCooldownManager : ListOfCooldownsCooldownManager, ISaveableCooldownManager
     {
 
-        public KitDictCooldownManager(Cooldowns cooldownsObj) : base()
+        public KitListOfCooldownsCooldownManager(Cooldowns cooldownsObj) : base()
         {
             foreach (var cooldownsObjUsageCooldown in cooldownsObj.usageCooldowns)
             {

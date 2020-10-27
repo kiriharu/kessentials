@@ -16,12 +16,12 @@ namespace Kvsl.CooldownManager
         }
     }
 
-    public class DictCooldownManager : ICooldownManager
+    public class ListOfCooldownsCooldownManager : ICooldownManager
     {
         
         public Dictionary<string, List<Cooldowns>> Timers;
 
-        public DictCooldownManager()
+        public ListOfCooldownsCooldownManager()
         {
             Timers = new Dictionary<string, List<Cooldowns>>();
         }

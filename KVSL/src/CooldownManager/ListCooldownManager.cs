@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kvsl.Utils;
+using Kvsl.CooldownManager.Interfaces;
 using System.Collections.Generic;
 
 namespace Kvsl.CooldownManager
@@ -16,20 +17,13 @@ namespace Kvsl.CooldownManager
         }
     }
 
-    public class ListOfCooldownsCooldownManager : ICooldownManager
+    public class ListCooldownManager : 
+        IPlKeyGettableCooldown, 
+        IPlGettableCooldowns, 
+        IPlKeySettableCoolodown
     {
         
-        public Dictionary<string, List<Cooldowns>> Timers;
-
-        public ListOfCooldownsCooldownManager()
-        {
-            Timers = new Dictionary<string, List<Cooldowns>>();
-        }
-
-        public static int GetUnixTimestamp()
-        {
-            return (int) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-        }
+        public Dictionary<string, List<Cooldowns>> Timers = new Dictionary<string, List<Cooldowns>>();
         
         public void SetCooldown(string playerUid, string key, int cooldown)
         {
@@ -37,7 +31,7 @@ namespace Kvsl.CooldownManager
             {
                 Timers[playerUid] = new List<Cooldowns>();   
             }
-            Timers[playerUid].Add(new Cooldowns(key, cooldown + GetUnixTimestamp()));
+            Timers[playerUid].Add(new Cooldowns(key, cooldown + DateUtils.GetUnixTimestamp()));
         }
 
         public int GetCooldown(string playerUid, string key)
@@ -45,7 +39,7 @@ namespace Kvsl.CooldownManager
             if (!Timers.ContainsKey(playerUid)) return 0;
             var keyCooldown = Timers[playerUid].Find(cooldown => cooldown.Key == key);
             if (keyCooldown == null) return 0;
-            var difference = keyCooldown.EndTimeStamp - GetUnixTimestamp();
+            var difference = keyCooldown.EndTimeStamp - DateUtils.GetUnixTimestamp();
             if (difference > 0) return difference;
             Timers[playerUid].Remove(keyCooldown);
             return 0;
@@ -56,14 +50,15 @@ namespace Kvsl.CooldownManager
             var dict = new Dictionary<string, int>();
             if (!Timers.ContainsKey(playerUid)) return dict;
             Timers[playerUid].ForEach(
-                cooldown => dict.Add(cooldown.Key, cooldown.EndTimeStamp - GetUnixTimestamp())
-            );
+                cooldown =>
+                {
+                    var itemCooldown = cooldown.EndTimeStamp - DateUtils.GetUnixTimestamp();
+                    if (itemCooldown > 0)
+                    {
+                        dict.Add(cooldown.Key, itemCooldown);   
+                    }
+                });
             return dict;
-        }
-
-        public bool IsInCooldown(string playerUid, string key)
-        {
-            return GetCooldown(playerUid, key) > 0;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace KEssentials
             base.StartServerSide(api);
             
             // Load main config
-            var conf = api.LoadOrCreateConf<Config>("kessenесли tials.json");
+            var conf = api.LoadOrCreateConf<Config>("kessentials.json");
             
             // TODO: Сначала смотреть, есть ли вообще либа. Если её нет - просто писать варнинг, что её нет
             // KEssentials Automessage

@@ -11,7 +11,7 @@ namespace KEssentialsKits
         public static string item = nameof(item);
     }
     
-    public class KitsConfig
+    public class KitsStorageClass
     {
 
         public List<Kit> kits = new List<Kit>();

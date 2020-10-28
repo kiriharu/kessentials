@@ -46,10 +46,9 @@
         <Compile Include="src\Api\DefaultKits.cs" />
         <Compile Include="src\Commands\Kit.cs" />
         <Compile Include="src\Commands\Kits.cs" />
-        <Compile Include="src\Config.cs" />
+        <Compile Include="src\Cooldown\KitCooldownManagerStorage.cs" />
+        <Compile Include="src\KitsStorageClass.cs" />
         <Compile Include="src\Cooldown\Cooldowns.cs" />
-        <Compile Include="src\Cooldown\CooldownSaveTimer.cs" />
-        <Compile Include="src\Cooldown\KitDictCooldownManager.cs" />
         <Compile Include="src\KEssentialsKits.cs" />
         <Compile Include="src\Privilege.cs" />
     </ItemGroup>

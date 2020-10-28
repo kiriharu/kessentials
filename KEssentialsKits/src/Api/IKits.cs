@@ -14,9 +14,9 @@ namespace KEssentialsKits.Api
         /// Returns a cooldown manager
         /// </summary>
         /// <returns></returns>
-        ICooldownManager GetCooldownManager();
+        ListCooldownManager GetCooldownManager();
 
-        KitsConfig GetLoadedKits();
+        KitsStorageClass GetLoadedKits();
         
         /// <summary>
         /// Gives kit to player

@@ -15,5 +15,6 @@ namespace Kvsl.Utils
             var rnd = new Random();
             return list[rnd.Next(list.Count)];
         }
+        
     }
 }

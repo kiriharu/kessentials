@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KEssentialsKits.Cooldown;
 using Kvsl.CooldownManager;
 using Kvsl.Extensions;
 using Vintagestory.API.Server;
@@ -8,14 +9,14 @@ namespace KEssentialsKits.Api
 {
     public class DefaultKits : IKits
     {
-        public ICooldownManager GetCooldownManager()
+        public ListCooldownManager GetCooldownManager()
         {
-            return KEssentialsKits.KitCooldownManagerInstance;
+            return KEssentialsKits.KitsCooldownManager;
         }
-        
-        public KitsConfig GetLoadedKits()
+
+        public KitsStorageClass GetLoadedKits()
         {
-            return KEssentialsKits.LoadedKitsConfig;
+            return KEssentialsKits.LoadedKitsStorageClass;
         }
 
         public Kit GetDefaultKit()

@@ -43,14 +43,22 @@
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="src\CooldownManager\DictCooldownManager.cs" />
-        <Compile Include="src\CooldownManager\ICooldownManager.cs" />
-        <Compile Include="src\CooldownManager\ISaveableCooldownManager.cs" />
+        <Compile Include="src\CooldownManager\Interfaces\IPlGettableCooldown.cs" />
+        <Compile Include="src\CooldownManager\Interfaces\IPlKeyGettableCooldown.cs" />
+        <Compile Include="src\CooldownManager\Interfaces\IPlGettableCooldowns.cs" />
+        <Compile Include="src\CooldownManager\Interfaces\IPlKeySettableCoolodown.cs" />
+        <Compile Include="src\CooldownManager\Interfaces\IPlSettableCooldown.cs" />
+        <Compile Include="src\CooldownManager\ListCooldownManager.cs" />
+        <Compile Include="src\CooldownManager\Storage\ListCooldownManagerStorage.cs" />
         <Compile Include="src\Extensions\APIExtensions.cs" />
         <Compile Include="src\Extensions\DictExtensions.cs" />
         <Compile Include="src\Extensions\ItemStackExtensions.cs" />
         <Compile Include="src\Extensions\ServerPlayerExtensions.cs" />
         <Compile Include="src\KEssentials.cs" />
+        <Compile Include="src\StorageOperator\IStorage.cs" />
+        <Compile Include="src\StorageOperator\BaseStorage.cs" />
         <Compile Include="src\Utils\AbstractTimerEvent.cs" />
+        <Compile Include="src\Utils\DateUtils.cs" />
         <Compile Include="src\Utils\TypeUtils.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
